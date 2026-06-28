@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PricePulse</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="extension-mode">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <span class="brand-mark" aria-hidden="true">P</span>
+          <div>
+            <p class="eyebrow">Amazon and Flipkart tracker</p>
+            <h1>PricePulse</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" id="notifyButton" type="button">Enable alerts</button>
+          <button class="primary-button" id="refreshButton" type="button">Refresh prices</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="overview-grid" aria-label="PricePulse overview">
+          <div class="market-visual">
+            <img src="assets/pricepulse-products.png" alt="Assorted ecommerce products arranged for price tracking">
+          </div>
+
+          <div class="metric-strip" id="metricStrip" aria-label="Tracker summary"></div>
+
+          <form class="tracker-form" id="trackerForm">
+            <div class="form-header">
+              <div>
+                <p class="eyebrow">New watch</p>
+                <h2>Add product</h2>
+              </div>
+              <div class="form-actions">
+                <button class="ghost-button compact" id="currentTabButton" type="button">Use current tab</button>
+                <span class="form-chip" id="modeChip">Extension</span>
+              </div>
+            </div>
+            <label>
+              Product URL
+              <input id="productUrl" name="productUrl" type="url" placeholder="https://www.amazon.in/..." required>
+            </label>
+            <div class="form-row">
+              <label>
+                Platform
+                <select id="platform" name="platform">
+                  <option value="Amazon">Amazon</option>
+                  <option value="Flipkart">Flipkart</option>
+                </select>
+              </label>
+              <label>
+                Target price
+                <input id="targetPrice" name="targetPrice" type="number" min="100" step="50" placeholder="34999" required>
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                Product name
+                <input id="productName" name="productName" type="text" placeholder="Sony WH-1000XM5">
+              </label>
+              <label>
+                Current price
+                <input id="currentPrice" name="currentPrice" type="number" min="100" step="50" placeholder="39999">
+              </label>
+            </div>
+            <button class="primary-button full-width" type="submit">Track product</button>
+          </form>
+        </section>
+
+        <section class="workspace-grid" aria-label="Tracked products workspace">
+          <div class="tracker-column">
+            <div class="toolbar">
+              <div>
+                <p class="eyebrow">Watchlist</p>
+                <h2>Tracked products</h2>
+              </div>
+              <div class="toolbar-controls">
+                <input class="search-input" id="searchInput" type="search" placeholder="Search products">
+                <select id="platformFilter" aria-label="Filter by platform">
+                  <option value="all">All stores</option>
+                  <option value="Amazon">Amazon</option>
+                  <option value="Flipkart">Flipkart</option>
+                </select>
+                <select id="sortSelect" aria-label="Sort products">
+                  <option value="score">Best buy score</option>
+                  <option value="drop">Largest drop</option>
+                  <option value="price">Lowest price</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="product-grid" id="productGrid"></div>
+          </div>
+
+          <aside class="insight-column" aria-label="Price intelligence">
+            <section class="forecast-panel">
+              <div class="panel-title">
+                <div>
+                  <p class="eyebrow">AI timing</p>
+                  <h2 id="forecastTitle">Forecast</h2>
+                </div>
+                <span id="forecastBadge" class="status-pill">Ready</span>
+              </div>
+              <div class="forecast-score">
+                <div>
+                  <span class="score-label">Buy score</span>
+                  <strong id="buyScore">0</strong>
+                </div>
+                <div class="score-ring" id="scoreRing" aria-hidden="true"></div>
+              </div>
+              <div class="forecast-copy">
+                <h3 id="forecastAction">Select a product</h3>
+                <p id="forecastReason">The model compares the current price with recent trend, volatility, low-price percentile, and target distance.</p>
+              </div>
+              <div class="chart-card">
+                <div class="chart-header">
+                  <span>Price history</span>
+                  <span id="chartRange">Last 14 checks</span>
+                </div>
+                <svg id="detailChart" viewBox="0 0 360 180" role="img" aria-label="Selected product price history"></svg>
+              </div>
+            </section>
+
+            <section class="alerts-panel">
+              <div class="panel-title">
+                <div>
+                  <p class="eyebrow">Signals</p>
+                  <h2>Alerts</h2>
+                </div>
+                <button class="ghost-button compact" id="clearAlertsButton" type="button">Clear</button>
+              </div>
+              <div class="alert-list" id="alertList"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
